@@ -100,6 +100,7 @@ const paginationMiddleware = (req, res, next) => {
         res.locals.size = validateNumber(req.query.size) || 25;
         res.locals.limit = validateNumber(req.query.limit) || 5;
         res.locals.offset = validateNumber(req.query.offset) || 0;
+        res.locals.page = validateNumber(req.query.page) || 0
 
         return next();
     } catch {}
@@ -110,13 +111,17 @@ const paginationMiddleware = (req, res, next) => {
 const getPreviousPageLink = (req, size, limit, offset) => `${req.path}?size=${size}&limit=${limit}&offset=${Math.max(0, offset - limit)}`;
 const getNextPageLink = (req, size, limit, offset) => `${req.path}?size=${size}&limit=${limit}&offset=${offset + limit}`;
 
-const generateOffsetPaginatedArray = (size, offset, limit) => {
+const generateOffsetPaginatedArray = (size, offset, limit, offsetName = "offset") => {
     let generated = genArrayOfObjects(size).slice(offset, offset + limit);
-    return {items: generated, pagination: {size: generated.length, limit: limit, offset: offset, total: size}};
+    return {items: generated, pagination: {size: generated.length, limit: limit, [offsetName]: offsetName === "offset" ? offset : offset / limit, total: size}};
 }
 
 app.get('/limit', paginationMiddleware, (req, res) => {
     res.json(generateOffsetPaginatedArray(res.locals.size, res.locals.offset, res.locals.limit));
+});
+
+app.get('/page', paginationMiddleware, (req, res) => {
+    res.json(generateOffsetPaginatedArray(res.locals.size, res.locals.page * res.locals.limit, res.locals.limit, "page"));
 });
 
 app.get('/linking', paginationMiddleware, (req, res) => {

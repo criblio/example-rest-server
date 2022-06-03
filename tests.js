@@ -326,6 +326,80 @@ describe("Pagination", () => {
         })
     })
 
+    describe("GET /page", () => {
+        it("should return the first page information", () => {
+            chai.request(app)
+                .get("/page")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('pagination');
+                    res.body.pagination.should.be.deep.equal({
+                        size: 5,
+                        limit: 5,
+                        page: 0,
+                        total: 25
+                    })
+                })
+        });
+
+        it("should return the updated second page", () => {
+            chai.request(app)
+                .get("/page?page=1")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('pagination');
+                    res.body.pagination.should.be.deep.equal({
+                        size: 5,
+                        limit: 5,
+                        page: 1,
+                        total: 25
+                    });
+                });
+        });
+
+        it("should change the size if the limit is changed", () => {
+            chai.request(app)
+                .get("/page?limit=2")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('pagination');
+                    res.body.pagination.should.be.deep.equal({
+                        size: 2,
+                        limit: 2,
+                        page: 0,
+                        total: 25
+                    })
+                })
+        })
+
+        it("should return 400 if not valid size", () => {
+            chai.request(app)
+                .get("/page?page=f")
+                .end((err, res) => {
+                    res.should.have.status(400);
+                });
+        });
+
+        it("should return 400 if not valid limit", () => {
+            chai.request(app)
+                .get("/page?page=f")
+                .end((err, res) => {
+                    res.should.have.status(400);
+                });
+        });
+
+        it("should return 400 if not valid page number", () => {
+            chai.request(app)
+                .get("/page?page=f")
+                .end((err, res) => {
+                    res.should.have.status(400);
+                });
+        });
+    });
+
     describe("GET /linking", () => {
         it("should return a header with the next page", () => {
             chai.request(app)
