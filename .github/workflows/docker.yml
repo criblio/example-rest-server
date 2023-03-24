@@ -24,7 +24,7 @@ jobs:
       with:
         images: |
           bdalpe/rest-server
-          ghcr.io/bdalpe/rest-server
+          ghcr.io/bdalpe/example-rest-server
         tags: |
           type=semver,pattern={{version}}
           type=semver,pattern={{major}}.{{minor}}          
