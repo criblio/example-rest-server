@@ -1,6 +1,6 @@
 {
   "name": "example-rest-server",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "author": "Brendan Dalpe (bdalpe@cribl.io)",
   "scripts": {
