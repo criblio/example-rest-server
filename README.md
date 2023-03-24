@@ -2,6 +2,22 @@
 
 This code was developed for use in the Cribl [REST API Sandbox](https://sandbox.cribl.io/course/rest). The various methods here simulate common discovery, collection, and pagination scenarios found in REST APIs.
 
+## Usage
+
+### Docker
+
+You can run this application as a Docker container:
+
+```shell
+docker run -p "3000:3000" ghcr.io/bdalpe/rest-server
+```
+
+### Development
+
+```shell
+npm run dev
+```
+
 ## Endpoints
 
 ### Utility
