@@ -143,6 +143,16 @@ app.get('/response/body', paginationMiddleware, (req, res) => {
     });
 });
 
+app.get('/response/body/last', paginationMiddleware, (req, res) => {
+   res.json({
+       items: genArrayOfObjects(res.locals.size).slice(res.locals.offset, res.locals.offset + res.locals.limit),
+       pagination: {
+           next: res.locals.offset + res.locals.limit,
+           more: res.locals.offset + res.locals.limit < res.locals.size,
+       }
+   })
+});
+
 app.get('/response/headers', paginationMiddleware, (req, res) => {
     (res.locals.offset > 0) && res.append('previousLink', getPreviousPageLink(req, res.locals.size, res.locals.limit, res.locals.offset));
     (res.locals.offset + res.locals.limit < res.locals.size) && res.append('nextLink', getNextPageLink(req, res.locals.size, res.locals.limit, res.locals.offset));

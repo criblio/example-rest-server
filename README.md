@@ -165,3 +165,20 @@ nextLink: /response/headers?size=25&limit=5&offset=5
 
 {"items":[{"item":1},{"item":2},{"item":3},{"item":4},{"item":5}]}
 ```
+
+#### Response Body (Has-more Expression)
+
+Includes a pagination flag `more` to indicate if there are more pages to collect.
+
+Parameters supported:
+* `size` - total count of items
+* `limit` - items returned per API call
+
+Semi-opaque parameters:
+* `offset`
+
+```
+GET /response/body
+
+{"items":[{"item":1},{"item":2},{"item":3},{"item":4},{"item":5}],"pagination":{"offset":5,"more":true}}
+```

@@ -486,3 +486,39 @@ describe("Pagination", () => {
         })
     })
 })
+
+describe("Last-Page Expression Pagination", () => {
+    describe("GET /response/body/last", () => {
+        it("should return a default", () => {
+            chai.request(app)
+                .get("/response/body/last")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.have.property("pagination");
+                    res.body.pagination.should.have.property("next");
+                    res.body.pagination.next.should.equal(5);
+                    res.body.pagination.should.have.property("more");
+                    res.body.pagination.more.should.equal(true);
+                })
+        })
+
+        it("more should return false when reaching limit", () => {
+            chai.request(app)
+                .get("/response/body/last?offset=22")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.have.property("pagination");
+                    res.body.pagination.should.have.property("more");
+                    res.body.pagination.more.should.equal(false);
+                })
+        })
+
+        it("should return 400 if invalid offset", () => {
+            chai.request(app)
+                .get("/response/body/last?offset=-1")
+                .end((err, res) => {
+                    res.should.have.status(400);
+                })
+        })
+    })
+});
