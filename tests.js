@@ -488,10 +488,10 @@ describe("Pagination", () => {
 })
 
 describe("Last-Page Expression Pagination", () => {
-    describe("GET /response/body/last", () => {
+    describe("GET /response/body/more", () => {
         it("should return a default", () => {
             chai.request(app)
-                .get("/response/body/last")
+                .get("/response/body/more")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.have.property("pagination");
@@ -504,7 +504,7 @@ describe("Last-Page Expression Pagination", () => {
 
         it("more should return false when reaching limit", () => {
             chai.request(app)
-                .get("/response/body/last?offset=22")
+                .get("/response/body/more?offset=22")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.have.property("pagination");
@@ -515,7 +515,7 @@ describe("Last-Page Expression Pagination", () => {
 
         it("should return 400 if invalid offset", () => {
             chai.request(app)
-                .get("/response/body/last?offset=-1")
+                .get("/response/body/more?offset=-1")
                 .end((err, res) => {
                     res.should.have.status(400);
                 })

@@ -143,7 +143,7 @@ app.get('/response/body', paginationMiddleware, (req, res) => {
     });
 });
 
-app.get('/response/body/last', paginationMiddleware, (req, res) => {
+app.get('/response/body/more', paginationMiddleware, (req, res) => {
    res.json({
        items: genArrayOfObjects(res.locals.size).slice(res.locals.offset, res.locals.offset + res.locals.limit),
        pagination: {

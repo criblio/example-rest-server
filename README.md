@@ -178,7 +178,7 @@ Semi-opaque parameters:
 * `offset`
 
 ```
-GET /response/body
+GET /response/body/more
 
 {"items":[{"item":1},{"item":2},{"item":3},{"item":4},{"item":5}],"pagination":{"offset":5,"more":true}}
 ```
