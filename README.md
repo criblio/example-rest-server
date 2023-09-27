@@ -9,7 +9,7 @@ This code was developed for use in the Cribl [REST API Sandbox](https://sandbox.
 You can run this application as a Docker container:
 
 ```shell
-docker run -p "3000:3000" ghcr.io/bdalpe/rest-server
+docker run -p "3000:3000" public.ecr.aws/cribl-sandbox/rest-server
 ```
 
 ### Development
