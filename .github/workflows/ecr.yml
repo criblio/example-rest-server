@@ -1,4 +1,4 @@
-name: Docker Hub Release
+name: Build and Push to AWS ECR
 
 on:
   push:
@@ -23,24 +23,23 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          bdalpe/rest-server
-          ghcr.io/bdalpe/example-rest-server
+          public.ecr.aws/cribl-sandbox/example-rest-server
         tags: |
           type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}          
-
-    - name: Login to DockerHub
-      uses: docker/login-action@v2
+          type=semver,pattern={{major}}.{{minor}}
+    
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: us-east-1
 
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
+    - name: Login to Amazon ECR Public
+      id: login-ecr-public
+      uses: aws-actions/amazon-ecr-login@v1
       with:
-        registry: ghcr.io
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        mask-password: 'true'
+        registry-type: public
 
     - name: Build and push
       id: docker_build
